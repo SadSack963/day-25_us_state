@@ -4,6 +4,7 @@ from messenger import Messenger
 
 image = "blank_states_img.gif"
 csv = "50_states.csv"
+done = "states_done.csv"
 
 
 def extract_and_display_state(row):
@@ -62,6 +63,10 @@ while game_on:
         player_msg.message_time("Please type a state name.\nTry Again.", 2)
     else:
         answer = answer.title()  # Convert to Title Case
+        if answer == "Exit" or answer == "Quit":
+            player_msg.pencolor("green")
+            player_msg.message_time("Goodbye\nfor now.", 5)
+            break
 
         # Extract the corresponding Series (row) from the DataFrame
         series = df[df["state"] == answer]
@@ -84,5 +89,7 @@ while game_on:
                     game_on = False
                     player_msg.pencolor("green")
                     player_msg.message_time("Completed.\nWell Done!", 5)
+
+
 
 turtle.mainloop()  # Keep the window open when the program ends
