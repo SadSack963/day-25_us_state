@@ -50,13 +50,16 @@ game_on = True
 total = len(df.index)  # Total number of states
 score = 0  # Number of correct answers given
 correct_states = []
+
 while game_on:
     answer = screen.textinput(title=f"{score}/{total} States Correct", prompt="Name a U.S. state :")
+
     # Prevent .title() crash if cancelled or nothing is input
     if answer is None:
         player_msg.display_message("Incorrect!\nTry Again.", 2)
     else:
         answer = answer.title()  # Convert to Title Case
+
         # Extract the corresponding Series from the DataFrame
         series = df[df["state"] == answer]
 
@@ -64,6 +67,7 @@ while game_on:
         if series.empty:
             player_msg.display_message("Incorrect!\nTry Again.", 2)
         else:
+
             # Check if already answered
             if answer in correct_states:
                 player_msg.display_message(f"You already got\n{answer}.\nTry Again.", 2)
