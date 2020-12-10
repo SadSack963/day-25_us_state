@@ -63,7 +63,7 @@ while game_on:
     else:
         answer = answer.title()  # Convert to Title Case
 
-        # Extract the corresponding Series from the DataFrame
+        # Extract the corresponding Series (row) from the DataFrame
         series = df[df["state"] == answer]
 
         # Check that the answer given is valid
