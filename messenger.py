@@ -22,4 +22,4 @@ class Messenger(Turtle):
 
     def display_state(self, message, position):
         self.setposition(position)
-        self.display_message(message=message, time=-1)
+        self.write(arg=message, move=False, align="center", font=self.font)

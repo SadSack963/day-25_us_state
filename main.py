@@ -6,6 +6,15 @@ image = "blank_states_img.gif"
 csv = "50_states.csv"
 
 
+def extract_and_display_state(row):
+    # Reset the row index to zero (old index retained in a new column)
+    row1 = row.reset_index()
+    state_name = row1.at[0, "state"]
+    state_x = int(row1.at[0, "x"])  # Convert numpy.int64 to int
+    state_y = int(row1.at[0, "y"])
+    state_msg.display_state(message=state_name, position=(state_x, state_y))
+
+
 # Set up the Screen
 # =================
 screen = turtle.Screen()
@@ -39,30 +48,26 @@ df = pandas.read_csv(csv)
 # =========
 game_on = True
 total = len(df.index)  # Total number of states
-correct = 0  # Number of correct answers given
+score = 0  # Number of correct answers given
 while game_on:
-    answer = screen.textinput(title=f"{correct}/{total} States Correct", prompt="Name a U.S. state :")
+    answer = screen.textinput(title=f"{score}/{total} States Correct", prompt="Name a U.S. state :")
     # Prevent .title() crash if cancelled or nothing is input
     if answer is None:
         player_msg.display_message("Incorrect!\nTry Again", 2)
     else:
         # Extract the corresponding Series from the DataFrame
-        row = df[df["state"] == answer.title()]
+        series = df[df["state"] == answer.title()]
 
         # Check that the answer given is valid
-        if row.empty:
+        if series.empty:
             player_msg.display_message("Incorrect!\nTry Again", 2)
         else:
-            # Reset the row index to zero (old index retained in a new column)
-            # The old index could be dropped if required,
-            # and it could also be done inplace (without creating a new variable).
-            row1 = row.reset_index()
-            state_name = row1.at[0, "state"]
-            state_x = int(row1.at[0, "x"])  # Convert numpy.int64 to int
-            state_y = int(row1.at[0, "y"])
-            state_msg.display_state(message=state_name, position=(state_x, state_y))
+            score += 1
+            extract_and_display_state(series)
 
-        game_on = False
+            # End game
+            if score == total:
+                game_on = False
 
 turtle.mainloop()  # Keep the window open when the program ends
 
