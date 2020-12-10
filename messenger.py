@@ -19,3 +19,7 @@ class Messenger(Turtle):
         if time > 0:
             sleep(time)
             self.clear()
+
+    def display_state(self, message, position):
+        self.setposition(position)
+        self.display_message(message=message, time=-1)

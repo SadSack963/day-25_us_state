@@ -24,8 +24,8 @@ player_msg = Messenger(
     fonttype="bold italic",
 )
 
-# state_name displays the state names on the map
-state_name = Messenger(
+# state_msg displays the state names on the map
+state_msg = Messenger(
     fontcolor="black",
     fontsize=10,
     fonttype="normal",
@@ -33,13 +33,6 @@ state_name = Messenger(
 
 # Read the CSV into a Pandas DataFrame
 df = pandas.read_csv(csv)
-# print(df.head(3))
-"""
-             state    x    y
-0          Alabama  139  -77
-1           Alaska -204 -170
-2          Arizona -203  -40
-"""
 
 
 # Game Loop
@@ -60,7 +53,14 @@ while game_on:
         if row.empty:
             player_msg.display_message("Incorrect!\nTry Again", 2)
         else:
-            print(row["x"])
+            # Reset the row index to zero (old index retained in a new column)
+            # The old index could be dropped if required,
+            # and it could also be done inplace (without creating a new variable).
+            row1 = row.reset_index()
+            state_name = row1.at[0, "state"]
+            state_x = int(row1.at[0, "x"])  # Convert numpy.int64 to int
+            state_y = int(row1.at[0, "y"])
+            state_msg.display_state(message=state_name, position=(state_x, state_y))
 
         game_on = False
 
