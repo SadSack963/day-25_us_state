@@ -10,10 +10,13 @@ def save_missing_states():
     #             file.write(f"{state}\n")
 
     # Write a Pandas DataFrame structure to csv
-    missing_states = []
-    for state in all_states:
-        if state not in guessed_states:
-            missing_states.append(state)
+    # missing_states = []
+    # for state in all_states:
+    #     if state not in guessed_states:
+    #         missing_states.append(state)
+
+    # Using List Comprehension:
+    missing_states = [state for state in all_states if state not in guessed_states]
     new_data = pandas.DataFrame(missing_states)
     new_data.to_csv("states_to_learn.csv", header=["state"])
 
